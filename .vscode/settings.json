@@ -2,6 +2,7 @@
     "files.associations": {
         "*.embeddedhtml": "html",
         "main.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "sdl_ttf.h": "c"
     }
 }

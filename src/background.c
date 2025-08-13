@@ -1,19 +1,33 @@
+// Background.c
+//--------------------------
+// This script creates the desktop background, and all related.
+//-------------------------
+
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "renderText.c"
+#include "readConfig.c"
 
 int main(int argc, char *argv[])
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
+    //Init
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 
-    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
-    {
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         printf("SDL_image could not initialize! IMG_Error: %s\n", IMG_GetError());
         SDL_Quit();
+        return -1;
+    }
+
+    if (TTF_Init() == -1) {
+        printf("SDL_TTF could not initialize! TTF_Error: %s\n", TTF_GetError());
         return -1;
     }
 
@@ -46,7 +60,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    SDL_Texture *backgroundTexture = IMG_LoadTexture(renderer, "image.png");
+    const char *imagePath = loadGameConf();
+    printf("%s", imagePath);
+    SDL_Texture *backgroundTexture = IMG_LoadTexture(renderer, imagePath);
     if (!backgroundTexture)
     {
         printf("Unable to load background image! IMG_Error: %s\n", IMG_GetError());
@@ -57,10 +73,19 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+
+    TTF_Font *font = TTF_OpenFont("OpenSans.ttf", 24);
+    if (!font) {
+        printf("Failed to load font! TTF_Error: %s\n", TTF_GetError());
+        return -1;
+    }
+
+    //Main loop
     SDL_Event e;
     int quit = 0;
-    while (!quit)
-    {
+    int rendered = 0;
+
+    while (!quit) {
         while (SDL_PollEvent(&e) != 0)
         {
             if (e.type == SDL_QUIT)
@@ -68,20 +93,28 @@ int main(int argc, char *argv[])
                 quit = 1;
             }
         }
+    
+        if (!rendered) {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+        
+            SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+            
+            WriteToScreen(renderer, font, " ©2025 ", (displayMode.w - 100), (displayMode.h - 100));
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-
-        SDL_RenderPresent(renderer);
+            rendered += 1;
+        }
     }
 
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
-
+    
+    free((void*)imagePath);
+    
     return 0;
+
 }
