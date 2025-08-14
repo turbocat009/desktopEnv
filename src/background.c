@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    SDL_Window *window = SDL_CreateWindow("SDL2 Window with Background",
+    SDL_Window *window = SDL_CreateWindow("background",
                                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          displayMode.w, displayMode.h, SDL_WINDOW_SHOWN);
+                                          displayMode.w, displayMode.h, SDL_WINDOW_BORDERLESS);
     if (!window)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -99,8 +99,13 @@ int main(int argc, char *argv[])
             SDL_RenderClear(renderer);
         
             SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+
+            char String[256];
+            snprintf(String, sizeof(String), "Running at %dx%d", displayMode.w, displayMode.h);
+            WriteToScreen(renderer, font, String, (displayMode.w - 260), (displayMode.h - 100));
             
-            WriteToScreen(renderer, font, " ©2025 ", (displayMode.w - 100), (displayMode.h - 100));
+            WriteToScreen(renderer, font, " ©2025 ", (displayMode.w - 100), (displayMode.h - 50));
+            SDL_RenderPresent(renderer);
 
             rendered += 1;
         }

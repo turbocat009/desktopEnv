@@ -25,5 +25,4 @@ void WriteToScreen(SDL_Renderer *renderer, TTF_Font *font, const char *Text, int
 
     SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
 
-    SDL_RenderPresent(renderer);
 }
