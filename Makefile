@@ -6,5 +6,8 @@ main: src/main.c
 background: src/background.c
 	gcc -o bin/background src/background.c -I/opt/homebrew/include/SDL2 -L/opt/homebrew/lib -lSDL2 -lSDL2_image -lSDL2_ttf
 
+bar: src/topBar.c
+	gcc -o bin/topBar src/topBar.c -I/opt/homebrew/include/SDL2 -L/opt/homebrew/lib -lSDL2 -lSDL2_image -lSDL2_ttf
+
 clean:
 	rm -f main background

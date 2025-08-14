@@ -20,15 +20,15 @@ void initializeBackground(){
         perror("Failed to fork for background");
     }
     
-    pid_t pid_xterm = fork();
-    if (pid_xterm == 0) {
-        printf("Drawing background\n");
-        int ret = system("xterm");
+    pid_t pid_bar = fork();
+    if (pid_bar == 0) {
+        printf("Drawing top bar\n");
+        int ret = system("./bin/topBar");
         if (ret == -1)
         {
             perror("Error executing program");
         }
-    } else if (pid_xterm < 0) {
+    } else if (pid_bar < 0) {
         perror("Failed to fork for background");
     }
 }

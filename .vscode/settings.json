@@ -3,6 +3,7 @@
         "*.embeddedhtml": "html",
         "main.h": "c",
         "ios": "c",
-        "sdl_ttf.h": "c"
+        "sdl_ttf.h": "c",
+        "data.h": "c"
     }
 }

@@ -5,7 +5,7 @@
 
 void WriteToScreen(SDL_Renderer *renderer, TTF_Font *font, const char *Text, int x, int y) {
     SDL_Color textColor = {255, 255, 255, 255};
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, Text, textColor);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, Text, textColor);
     if (!textSurface) {
         printf("Unable to create text surface! TTF_Error: %s\n", TTF_GetError());
         return;

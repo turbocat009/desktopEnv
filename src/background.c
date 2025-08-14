@@ -11,9 +11,9 @@
 #include <stdlib.h>
 #include "renderText.c"
 #include "readConfig.c"
+#include "../include/data.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     //Init
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -103,8 +103,11 @@ int main(int argc, char *argv[])
             char String[256];
             snprintf(String, sizeof(String), "Running at %dx%d", displayMode.w, displayMode.h);
             WriteToScreen(renderer, font, String, (displayMode.w - 260), (displayMode.h - 100));
-            
-            WriteToScreen(renderer, font, " ©2025 ", (displayMode.w - 100), (displayMode.h - 50));
+
+            char Version[256];
+            snprintf(Version, sizeof(Version), "%s %s (Build num. %d)", STATE, VER, BUILD_NUM);
+            WriteToScreen(renderer, font, Version, (displayMode.w - 310), (displayMode.h - 150));
+            WriteToScreen(renderer, font, YEAR, (displayMode.w - 100), (displayMode.h - 50));
             SDL_RenderPresent(renderer);
 
             rendered += 1;
