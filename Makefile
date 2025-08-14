@@ -1,4 +1,4 @@
-all: main background
+all: main background bar
 
 main: src/main.c
 	gcc -O2 -Wall -o bin/main src/main.c -I/opt/X11/include -L/opt/X11/lib -lX11
