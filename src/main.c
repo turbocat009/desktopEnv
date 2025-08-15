@@ -13,7 +13,7 @@ void initializeBackground() {
         char *args[] = {"./bin/background", NULL};
         if (execvp(args[0], args) == -1) {
             perror("Error executing background process");
-            exit(1); 
+            exit(1);
         }
     }
     else if (pid_background < 0) {
@@ -27,7 +27,7 @@ void initializeBackground() {
         char *args[] = {"./bin/topBar", NULL};
         if (execvp(args[0], args) == -1) {
             perror("Error executing top bar process");
-            exit(1); 
+            exit(1);
         }
     }
     else if (pid_bar < 0) {
@@ -43,7 +43,12 @@ int main() {
     else {
         perror("getcwd() error");
     }
+
     initializeBackground();
+
+    while (1) {
+        sleep(60);
+    }
 
     return 0;
 }
